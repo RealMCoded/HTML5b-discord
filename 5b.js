@@ -7596,7 +7596,7 @@ function setup() {
 		// If the level ID is specified in the URL, load that level.
 		menuScreen = 0;
 		exploreLevelPageType = 0;
-		fetch('https://5beam.zelo.dev/api/level?id=' + levelId, {method: 'GET'})
+		fetch('/5beam/api/level?id=' + levelId, {method: 'GET'})
 			.then(async (res) => {
 				exploreLevelPageLevel = await res.json();
 				playExploreLevel();
@@ -7610,7 +7610,7 @@ function setup() {
 		// If the levelpack ID is specified in the URL, load that levelpack.
 		menuScreen = 1;
 		exploreLevelPageType = 1;
-		fetch('https://5beam.zelo.dev/api/levelpack?levels=1&id=' + levelpackId, {method: 'GET'})
+		fetch('/5beam/api/levelpack?levels=1&id=' + levelpackId, {method: 'GET'})
 			.then(async (res) => {
 				exploreLevelPageLevel = await res.json();
 				if (levelpackProgress[exploreLevelPageLevel.id] === undefined) playExploreLevel();
@@ -10217,7 +10217,7 @@ function getAuthHeader() {
 
 function getExplorePage(p, t, s) {
 	requestAdded();
-	return fetch('https://5beam.zelo.dev/api/page?page=' + p + '&sort=' + s + '&type=' + t, {method: 'GET'})
+	return fetch('/5beam/api/page?page=' + p + '&sort=' + s + '&type=' + t, {method: 'GET'})
 		.then(async response => {
 			explorePageLevels = await response.json();
 			if (exploreTab == 0) setExploreThumbs();
@@ -10232,7 +10232,7 @@ function getExplorePage(p, t, s) {
 
 function getSearchPage(searchText, p) {
 	requestAdded();
-	return fetch('https://5beam.zelo.dev/api/search?text=' + encodeURIComponent(searchText).replace('%20','+') + '&page=' + p, {method: 'GET'})
+	return fetch('/5beam/api/search?text=' + encodeURIComponent(searchText).replace('%20','+') + '&page=' + p, {method: 'GET'})
 		.then(async response => {
 			explorePageLevels = await response.json();
 			setExploreThumbs();
@@ -10247,7 +10247,7 @@ function getSearchPage(searchText, p) {
 
 function getExploreLevel(id) {
 	requestAdded();
-	return fetch('https://5beam.zelo.dev/api/level?id=' + id, {method: 'GET'})
+	return fetch('/5beam/api/level?id=' + id, {method: 'GET'})
 		.then(async response => {
 			exploreLevelPageLevel = await response.json();
 			drawExploreThumb(thumbBigctx, thumbBig.width, exploreLevelPageLevel.data, 0.4);
@@ -10261,7 +10261,7 @@ function getExploreLevel(id) {
 
 function getExploreLevelpack(id) {
 	requestAdded();
-	return fetch('https://5beam.zelo.dev/api/levelpack?levels=1&id=' + id, {method: 'GET'})
+	return fetch('/5beam/api/levelpack?levels=1&id=' + id, {method: 'GET'})
 		.then(async response => {
 			exploreLevelPageLevel = await response.json();
 			drawExploreThumb(thumbBigctx, thumbBig.width, exploreLevelPageLevel.levels[0].data, 0.4);
@@ -10275,12 +10275,12 @@ function getExploreLevelpack(id) {
 
 function getExplorePlay(id) {
 	// we dont care if this errors; it probably will most of the time due to ratelimits
-	return fetch(`https://5beam.zelo.dev/api/play?type=${exploreLevelPageType}&id=${id}`)
+	return fetch(`/5beam/api/play?type=${exploreLevelPageType}&id=${id}`)
 }
 
 function getExploreUser(id) {
 	requestAdded();
-	return fetch('https://5beam.zelo.dev/api/user?id=' + id, {method: 'GET'})
+	return fetch('/5beam/api/user?id=' + id, {method: 'GET'})
 		.then(async response => {
 			exploreUser = await response.json();
 			requestResolved();
@@ -10293,7 +10293,7 @@ function getExploreUser(id) {
 
 function getCurrentExploreUserID() {
 	// from zelo: despite the pb_auth cookie having this information, we cannot use it as it is httpOnly
-	return fetch("https://5beam.zelo.dev/api/profile", {method: "GET", headers: getAuthHeader()})
+	return fetch("/5beam/api/profile", {method: "GET", headers: getAuthHeader()})
 		.then(async response => {
 			loggedInExploreUser5beamID = (await response.json()).id;
 			localStorage.setItem("5beam_id", loggedInExploreUser5beamID);
@@ -10305,7 +10305,7 @@ function getCurrentExploreUserID() {
 
 function getExploreUserPage(id, p, t, s) {
 	requestAdded();
-	return fetch('https://5beam.zelo.dev/api/user/page?id=' + id + '&page=' + p + '&type=' + t + '&sort=' + s, {method: 'GET'})
+	return fetch('/5beam/api/user/page?id=' + id + '&page=' + p + '&type=' + t + '&sort=' + s, {method: 'GET'})
 		.then(async response => {
 			exploreUserPageLevels[t] = await response.json();
 			if (t === 0) setExploreThumbsUserPage(t);
@@ -10321,7 +10321,7 @@ function getExploreUserPage(id, p, t, s) {
 function logInExplore() {
 	loggedInExploreUser5beamID = -1;
 	newWindow = window.open(
-		'https://5beam.zelo.dev/login/oauth?redirectURI=https://5beam.zelo.dev/login/callback/html5b',
+		'/5beam/login/oauth?redirectURI=/5beam/login/callback/html5b',
 		'5beam Login',
 		'height=750,width=450'
 	);
@@ -10358,7 +10358,7 @@ async function postExploreLevelOrPack(title, desc, data, isLevelpack=false) {
 		modded: ''
 	}
 
-	return fetch('https://5beam.zelo.dev/api/create/' + (isLevelpack?'levelpack':'level'), {method: 'POST', headers: getAuthHeader(), body: JSON.stringify(body)})
+	return fetch('/5beam/api/create/' + (isLevelpack?'levelpack':'level'), {method: 'POST', headers: getAuthHeader(), body: JSON.stringify(body)})
 		.then(response => {
 			// requestResolved();
 			if (response.status == 200) {
@@ -10386,7 +10386,7 @@ async function postExploreModifyLevel(id, title, desc, difficulty, file) {
 	}
 	if (file != '') body.file = file;
 
-	return fetch('https://5beam.zelo.dev/api/modify/level?id=' + id, {method: 'POST', headers: getAuthHeader(), body: JSON.stringify(body)})
+	return fetch('/5beam/api/modify/level?id=' + id, {method: 'POST', headers: getAuthHeader(), body: JSON.stringify(body)})
 		.then(response => {
 			requestResolved();
 			if (response.status == 200) {
