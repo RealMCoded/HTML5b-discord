@@ -2924,7 +2924,7 @@ function drawMenu() {
 		drawNewGame2Button('YES', 680.4, 169.75, '#993333', menuNewGame2yes);
 		drawNewGame2Button('NO', 815.9, 169.75, '#1a4d1a', menuNewGame2no);
 	} else {
-		drawMenu0Button('OPTIONS', 665.55, 259.1, false, menuOptions);
+		drawMenu0Button('OPTIONS', 665.55, 303.75, false, menuOptions);
 		drawMenu0Button('NEW GAME', 665.55, 348.4, false, menuNewGame);
 	}
 	drawMenu0Button('CONTINUE GAME', 665.55, 393.05, levelProgress == 0, menuContGame);
@@ -7637,6 +7637,7 @@ function draw() {
 	if (menuScreen == 2 || menuScreen == 3) ctx.translate(Math.floor(-cameraX + shakeX), Math.floor(-cameraY + shakeY));
 	switch (menuScreen) {
 		case -1:
+			playGame()
 			ctx.drawImage(preMenuBG, 0, 0, cwidth, cheight);
 			drawMenu0Button('START GAME', (cwidth - menu0ButtonSize.w) / 2, (cheight - menu0ButtonSize.h) / 2, false, playGame);
 			break;
