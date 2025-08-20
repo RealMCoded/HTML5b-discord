@@ -2911,8 +2911,9 @@ function drawMenu() {
 	ctx.textAlign = 'left';
 	ctx.font = '20px Helvetica';
 
-	if (levelProgress > 99) drawMenu0Button('WATCH BFDIA 5c', 665.55, 303.75, false, menuWatchC);
-	else drawMenu0Button('WATCH BFDIA 5a', 665.55, 303.75, false, menuWatchA);
+	//NOTE: Links to 5a and 5c are removed for Discord activities.
+	//if (levelProgress > 99) drawMenu0Button('WATCH BFDIA 5c', 665.55, 303.75, false, menuWatchC);
+	//else drawMenu0Button('WATCH BFDIA 5a', 665.55, 303.75, false, menuWatchA);
 	if (showingNewGame2) {
 		drawRoundedRect('#ffffff', 665.5, 81, 273, 72.95, 15);
 		ctx.font = '20px Helvetica';
@@ -9600,12 +9601,14 @@ function draw() {
 			}
 
 			drawMenu2_3Button(1, 837.5, 486.95, menu2Back);
-			// if (enableExperimentalFeatures) drawMenu2_3Button(2, 10, 486.95, logInExplore);
+
+			//NOTE: Hidden because of Discord activity stuffs
+			/*
 			if (loggedInExploreUser5beamID === -1) {
 				drawMenu0Button('LOG IN', 540, 20, false, logInExplore, 120);
 			} else {
 				drawMenu0Button('LOG OUT', 520, 20, false, logOutExplore, 150);
-			}
+			}*/
 			break;
 
 		case 7:
